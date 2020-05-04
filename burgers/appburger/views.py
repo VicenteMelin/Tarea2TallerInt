@@ -124,7 +124,7 @@ def delete_ingrediente(request, pkh, pki):
 
     if request.method == 'PUT':
         hamburguesa.ingredientes.add(ingrediente)
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_201_CREATED)
 
 
     elif request.method == 'DELETE':
