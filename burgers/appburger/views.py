@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from appburger.models import Ingrediente,Hamburguesa
-from appburger.serializers import HamburguesaSerializer, IngredienteSerializer
+from appburger.serializers import HamburguesaSerializer, IngredienteSerializer, HamburguesaPSerializer
 
 @api_view(['GET', 'POST'])
 def hamburguesa_list(request):
@@ -46,9 +46,12 @@ def hamburguesa_detail(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
-        serializer = HamburguesaSerializer(burger, data=request.data, context={'request': request})
+        serializer = HamburguesaPSerializer(burger, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
+            x = serializer.data
+            for y in range(len(x['ingredientes'])):
+                x['ingredientes'][y] = {'path': x['ingredientes'][y]}
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
