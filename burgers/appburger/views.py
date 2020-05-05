@@ -95,7 +95,7 @@ def ingrediente_detail(request, pk):
         serializer = HamburguesaSerializer(burger, many=True, context={'request': request})
         for hb in serializer.data:
             for ing in hb['ingredientes']:
-                if int(ing[-1]) == pk:
+                if int(ing.split('/')[-1]) == pk:
                     return Response(status=status.HTTP_409_CONFLICT)
         ingrediente.delete()
         return Response(status=status.HTTP_200_OK)
